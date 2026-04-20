@@ -1,5 +1,6 @@
 .completed {
     text-decoration: line-through;
+    opacity: 0.5;
 }
 
 * {
@@ -28,7 +29,7 @@ body {
 
 .todo-app {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     padding: 2rem;
     display: flex;
     justify-content: center;
@@ -171,4 +172,39 @@ body {
     flex: 1;
     margin-left: 10px;
     word-wrap: break-word;
+}
+
+.task-btns {
+    display: flex;
+    gap: 10px;
+    margin-right: auto;
+}
+
+.task-btns button {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(156, 203, 182, 0.3);
+    opacity: 0.8;
+    color: rgb(255, 255, 255);
+    font-size: 0.9rem;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.task-btns button:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.task-btns .edit-btn {
+    background-color: rgb(100, 79, 37);
+}
+
+.task-btns .delete-btn {
+    background-color: rgb(100, 37, 37);
 }

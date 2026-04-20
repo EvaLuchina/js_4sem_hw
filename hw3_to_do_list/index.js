@@ -18,16 +18,28 @@ addBtn.addEventListener('click', () => {
     li.innerHTML = `
     <input type="checkbox" class="checkbox">
     <span>${taskText}</span>
-    <button class="delete-btn"><i class="fa-solid fa-delete-left"></i></button>`;
+    <div class="task-btns">
+        <button class="edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="delete-btn"><i class="fa-solid fa-delete-left"></i></button>
+    </div>
+    `;
 
     taskList.append(li);
     taskInput.value = '';
 
     const checkbox = li.querySelector('.checkbox');
+    const editBtn = li.querySelector('.edit-btn');
     const deleteBtn = li.querySelector('.delete-btn');
 
     checkbox.addEventListener('click', () => {
-        li.classList.toggle('completed');
+        li.querySelector('span').classList.toggle('completed');
+    });
+
+    editBtn.addEventListener('click', () => {
+        if (!checkbox.checked){
+            taskInput.value = li.querySelector('span').textContent;
+            li.remove();
+        }
     });
 
     deleteBtn.addEventListener('click', () => {
