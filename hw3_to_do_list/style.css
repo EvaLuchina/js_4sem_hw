@@ -115,6 +115,24 @@ body {
     background-color: rgba(48, 24, 66, 0.8);
 }
 
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#searchBar {
+    flex: 1;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    border: none;
+    outline: none;
+    border-radius: 22px;
+    background-color: rgba(24, 66, 47, 0.5);
+    color: rgba(255, 255, 255, 0.8);
+}
+
 .tasks {
     display: flex;
     justify-content: center;

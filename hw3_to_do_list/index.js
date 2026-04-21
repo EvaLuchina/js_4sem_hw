@@ -5,7 +5,9 @@ const allBtn = document.getElementById('allBtn');
 const inProgressBtn = document.getElementById('inProgressBtn');
 const finishedBtn = document.getElementById('finishedBtn');
 
-const taskList = document.getElementById('taskList')
+const taskList = document.getElementById('taskList');
+
+const searchBar = document.getElementById('searchBar');
 
 const addTask = (text, completed = false) => {
     const taskText = text || taskInput.value.trim();
@@ -73,6 +75,16 @@ const addTask = (text, completed = false) => {
         }
         else {
             li.style.display = 'none';
+        }
+    });
+
+    searchBar.addEventListener('input', () =>{
+        const searchInput = searchBar.value.toLowerCase();
+        if (li.querySelector('span').textContent.toLowerCase().includes(searchInput)){
+            li.style.display = 'flex'
+        }
+        else{
+            li.style.display = 'none'
         }
     });
 
