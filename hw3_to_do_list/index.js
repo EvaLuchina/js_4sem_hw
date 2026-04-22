@@ -9,6 +9,8 @@ const taskList = document.getElementById('taskList');
 
 const searchBar = document.getElementById('searchBar');
 
+let countTasks = 0;
+
 const addTask = (text, completed = false) => {
     const taskText = text || taskInput.value.trim();
     if(!taskText) {
@@ -16,10 +18,19 @@ const addTask = (text, completed = false) => {
     };
     
     const li = document.createElement('li');
+    countTasks++;
 
     li.innerHTML = `
     <input type="checkbox" class="checkbox" ${completed ? 'checked' : ''}>
     <span>${taskText}</span>
+    <div class="priority-btns">
+        <input type="radio" class="priority" name="priority${countTasks}" id="radio1${countTasks}">
+        <label for="radio1${countTasks}" class="radio-label"><i class="fa-solid fa-caret-up"></i></label>
+        <input type="radio" class="priority" name="priority${countTasks}" id="radio2${countTasks}" checked>
+        <label for="radio2${countTasks}" class="radio-label"><i class="fa-regular fa-circle-dot"></i></label>
+        <input type="radio" class="priority" name="priority${countTasks}" id="radio3${countTasks}">
+        <label for="radio3${countTasks}" class="radio-label"><i class="fa-solid fa-caret-down"></i></label>
+    </div>
     <div class="task-btns">
         <button class="edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
         <button class="delete-btn"><i class="fa-solid fa-delete-left"></i></button>
@@ -49,6 +60,16 @@ const addTask = (text, completed = false) => {
             li.remove();
             saveTaskToLocalStorage();
         }
+        if (!checkbox.checked) {
+            priorityInput.forEach(priority => {
+                priority.addEventListener('click', () => {
+                    li.classList.toggle('first-priority', priorityInput[0].checked);
+                    li.classList.toggle('second-priority', priorityInput[1].checked);
+                    li.classList.toggle('third-priority', priorityInput[2].checked); 
+                });
+                saveTaskToLocalStorage();
+            });
+        }
     });
 
     deleteBtn.addEventListener('click', () => {
@@ -73,6 +94,20 @@ const addTask = (text, completed = false) => {
         const includesInput = li.querySelector('span').textContent.toLowerCase().includes(searchInput);
         li.classList.toggle('hide', !includesInput);
     });
+
+    const priorityInput = li.querySelectorAll('input.priority');
+    
+    if (!checkbox.checked) {
+        priorityInput.forEach(priority => {
+            priority.addEventListener('click', () => {
+                li.classList.toggle('first-priority', priorityInput[0].checked);
+                li.classList.toggle('second-priority', priorityInput[1].checked);
+                li.classList.toggle('third-priority', priorityInput[2].checked); 
+            });
+        });
+    }
+    
+        
 };
 
 const saveTaskToLocalStorage = () => {
