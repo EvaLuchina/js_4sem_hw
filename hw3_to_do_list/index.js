@@ -57,37 +57,22 @@ const addTask = (text, completed = false) => {
     });
 
     allBtn.addEventListener('click', () => {
-        li.style.display = 'flex';
+        li.classList.remove('hide');
     });
 
     inProgressBtn.addEventListener('click', () => {
-        if (checkbox.checked){
-            li.style.display = 'none';
-        }
-        else {
-            li.style.display = 'flex';
-        }
+        li.classList.toggle('hide', checkbox.checked);
     });
 
     finishedBtn.addEventListener('click', () => {
-        if (checkbox.checked){
-            li.style.display = 'flex';
-        }
-        else {
-            li.style.display = 'none';
-        }
+        li.classList.toggle('hide', !checkbox.checked);
     });
 
     searchBar.addEventListener('input', () =>{
         const searchInput = searchBar.value.toLowerCase();
-        if (li.querySelector('span').textContent.toLowerCase().includes(searchInput)){
-            li.style.display = 'flex'
-        }
-        else{
-            li.style.display = 'none'
-        }
+        const includesInput = li.querySelector('span').textContent.toLowerCase().includes(searchInput);
+        li.classList.toggle('hide', !includesInput);
     });
-
 };
 
 const saveTaskToLocalStorage = () => {

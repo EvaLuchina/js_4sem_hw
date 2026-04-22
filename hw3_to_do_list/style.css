@@ -3,6 +3,10 @@
     opacity: 0.5;
 }
 
+#taskList li.hide {
+    display: none;
+}
+
 * {
     margin: 0;
     padding: 0;
