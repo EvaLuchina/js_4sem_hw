@@ -78,6 +78,8 @@ const addTask = (text, completed = false, checked1 = false, checked2 = true, che
         };
     }    
 
+    disablePriority();
+
     if (checkbox.checked){
         li.querySelector('span').classList.add('completed');
         li.classList.add('done');
@@ -87,6 +89,14 @@ const addTask = (text, completed = false, checked1 = false, checked2 = true, che
     checkbox.addEventListener('change', () => {
         li.querySelector('span').classList.toggle('completed');
         li.classList.toggle('done', checkbox.checked);
+        
+        if (!checkbox.checked) {
+            priorityInput.forEach(priority => {
+                priority.addEventListener('click', () => { 
+                    togglePriority();
+                });
+            });
+        }
 
         disablePriority();
         saveTaskToLocalStorage();
