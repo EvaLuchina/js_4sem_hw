@@ -228,7 +228,7 @@ ul {
 }
 
 #taskList li.first-priority {
-    order: 0;
+    order: -1;
     background-color: rgba(66, 25, 24, 0.5);
 }
 
@@ -240,6 +240,11 @@ ul {
 #taskList li.third-priority {
     order: 3;
     background-color: rgba(37, 66, 24, 0.5);
+}
+
+#taskList li.done {
+    order: 4;
+    opacity: 0.6;
 }
 
 .task-btns {

@@ -24,11 +24,11 @@ const addTask = (text, completed = false) => {
     <input type="checkbox" class="checkbox" ${completed ? 'checked' : ''}>
     <span>${taskText}</span>
     <div class="priority-btns">
-        <input type="radio" class="priority" name="priority${countTasks}" id="radio1${countTasks}">
+        <input type="radio" class="priority" name="priority${countTasks}" id="radio1${countTasks}" >
         <label for="radio1${countTasks}" class="radio-label"><i class="fa-solid fa-caret-up"></i></label>
         <input type="radio" class="priority" name="priority${countTasks}" id="radio2${countTasks}" checked>
         <label for="radio2${countTasks}" class="radio-label"><i class="fa-regular fa-circle-dot"></i></label>
-        <input type="radio" class="priority" name="priority${countTasks}" id="radio3${countTasks}">
+        <input type="radio" class="priority" name="priority${countTasks}" id="radio3${countTasks}" >
         <label for="radio3${countTasks}" class="radio-label"><i class="fa-solid fa-caret-down"></i></label>
     </div>
     <div class="task-btns">
@@ -45,12 +45,43 @@ const addTask = (text, completed = false) => {
     const editBtn = li.querySelector('.edit-btn');
     const deleteBtn = li.querySelector('.delete-btn');
 
+    const priorityInput = li.querySelectorAll('input.priority');
+    
+    const disablePriority = () => {
+        let len = priorityInput.length;
+        if (checkbox.checked){
+            for(let i=0; i<len; i++){
+                priorityInput[i].disabled = true;
+            };
+        }
+        else {
+            for(let i=0; i<len; i++){
+                priorityInput[i].disabled = false;
+            };
+        };
+    }
+
+    if (!checkbox.checked) {
+        priorityInput.forEach(priority => {
+            priority.addEventListener('click', () => {
+                li.classList.toggle('first-priority', priorityInput[0].checked);
+                li.classList.toggle('second-priority', priorityInput[1].checked);
+                li.classList.toggle('third-priority', priorityInput[2].checked); 
+            });
+        });
+    }
+
     if (checkbox.checked){
         li.querySelector('span').classList.add('completed');
+        li.classList.add('done');
+        disablePriority();
     };
 
     checkbox.addEventListener('change', () => {
         li.querySelector('span').classList.toggle('completed');
+        li.classList.toggle('done', checkbox.checked);
+
+        disablePriority();
         saveTaskToLocalStorage();
     });
 
@@ -59,16 +90,6 @@ const addTask = (text, completed = false) => {
             taskInput.value = li.querySelector('span').textContent;
             li.remove();
             saveTaskToLocalStorage();
-        }
-        if (!checkbox.checked) {
-            priorityInput.forEach(priority => {
-                priority.addEventListener('click', () => {
-                    li.classList.toggle('first-priority', priorityInput[0].checked);
-                    li.classList.toggle('second-priority', priorityInput[1].checked);
-                    li.classList.toggle('third-priority', priorityInput[2].checked); 
-                });
-                saveTaskToLocalStorage();
-            });
         }
     });
 
@@ -94,20 +115,6 @@ const addTask = (text, completed = false) => {
         const includesInput = li.querySelector('span').textContent.toLowerCase().includes(searchInput);
         li.classList.toggle('hide', !includesInput);
     });
-
-    const priorityInput = li.querySelectorAll('input.priority');
-    
-    if (!checkbox.checked) {
-        priorityInput.forEach(priority => {
-            priority.addEventListener('click', () => {
-                li.classList.toggle('first-priority', priorityInput[0].checked);
-                li.classList.toggle('second-priority', priorityInput[1].checked);
-                li.classList.toggle('third-priority', priorityInput[2].checked); 
-            });
-        });
-    }
-    
-        
 };
 
 const saveTaskToLocalStorage = () => {
