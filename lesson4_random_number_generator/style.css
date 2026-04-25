@@ -1,0 +1,78 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: rgb(174, 147, 200);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 20px;
+    background-color: rgb(167, 131, 200);
+}
+
+#input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50px;
+    height: 30px;
+    font-size: 1.1rem;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.btns button {
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    border-radius: 10px;
+}
+
+.guesses-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.guesses-list p {
+    font-size: 1.4rem;
+}
+
+#guesses li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+#guesses li.small {
+    background-color: rgb(136, 136, 212);
+}
+
+#guesses li.big {
+    background-color: rgb(212, 136, 136);
+}
+
+#guesses li.correct {
+    background-color: rgb(136, 212, 136);
+}
