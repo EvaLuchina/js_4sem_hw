@@ -5,9 +5,9 @@ const colorBlocks = document.querySelector('.color-blocks');
 
 const generateColor = () => {
     let rgb = [];
-    let red = Math.floor(Math.random() * 255);
-    let green = Math.floor(Math.random() * 255);
-    let blue = Math.floor(Math.random() * 255);
+    let red = Math.floor(Math.random() * 256);
+    let green = Math.floor(Math.random() * 256);
+    let blue = Math.floor(Math.random() * 256);
     rgb.push(red);
     rgb.push(green);
     rgb.push(blue);
