@@ -20,8 +20,8 @@ const rgbString = (arr) => {
 };
 
 const componentToHex = (a) => {
-  var hex = a.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
+    let hex = a.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
 };
 
 const rgbToHex = (arr) => {
