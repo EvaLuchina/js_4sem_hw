@@ -15,10 +15,9 @@ const generateColor = () => {
 };
 
 const rgbString = (arr) => {
-    let color = 'rgb(' + arr[0].toString() + ', ' + arr[1].toString() + ', ' + arr[2].toString() + ')';
+    let color = `rgb(${arr[0].toString()}, ${arr[1].toString()}, ${arr[2].toString()})`;
     return color;
 };
-
 
 const componentToHex = (a) => {
   var hex = a.toString(16);
@@ -26,7 +25,7 @@ const componentToHex = (a) => {
 };
 
 const rgbToHex = (arr) => {
-    let hex = '#' + componentToHex(arr[0]) + componentToHex(arr[1]) + componentToHex(arr[2]);
+    let hex = `#${componentToHex(arr[0])}${componentToHex(arr[1])}${componentToHex(arr[2])}`;
     return hex;
 };
 
