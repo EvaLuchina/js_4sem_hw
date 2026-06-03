@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Менеджер задач</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 20px; }
+    input { flex: 1; padding: 8px; font-size: 16px; }
+    button { padding: 8px 16px; cursor: pointer; }
+    .task {
+      padding: 12px; border: 1px solid #ddd; border-radius: 6px;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 12px;
+    }
+    .task.done { opacity: 0.5; text-decoration: line-through; }
+    .task-text { flex: 1; cursor: pointer; }
+    .stats { padding: 10px; background: #f0f0f0; border-radius: 6px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Менеджер задач</h1>
+ 
+  <div class="input-row">
+    <input type="text" id="taskInput" placeholder="Что нужно сделать?">
+    <button id="addBtn">Добавить</button>
+  </div>
+ 
+  <div class="stats" id="stats"></div>
+  <div id="tasksList"></div>
+ 
+  <script>
+    function createTaskManager() {
+        let tasks = []
+
+        function createID() {
+            let count = 0
+
+            return function() {
+                count++
+                return count
+            }
+        }
+
+        return {
+            addTask(text) {
+                if (!text.trim() === '') {
+                    return
+                }
+
+                const task = {
+                    id: createID(),
+                    text: text.trim(),
+                    done: false
+                }
+
+                tasks.push(task)
+                return task
+            },
+            removeTask(id) {
+                tasks = tasks.filter(task => task.id !== id)
+            },
+            toggleTask(id) {
+                const task = tasks.find(task => task.id === id)
+                if (task) {
+                    task.done = !task.done
+                }
+            },
+            getAll() {
+                return [...tasks]
+            },
+            getStats() {
+                const total = tasks.length;
+                const active = tasks.filter(task => !task.done).length
+                const completed = tasks.filter(task => task.done).length
+
+                return { total, active, completed }
+            }
+        }
+    }
+
+    const app = {
+        manager: createTaskManager(),
+
+        init() {
+            this.addBtn = document.getElementById('addBtn')
+            this.taskInput = document.getElementById('taskInput')
+            this.tasksList = document.getElementById('tasksList')
+            this.stats = document.getElementById('stats')
+
+            this.addBtn.addEventListener('click', () => {
+                this.addTaskHandler()
+            });
+
+            this.taskInput.addEventListener('keypress', (e) => { 
+                if (e.key === 'Enter') {
+                    this.addTaskHandler()
+                }
+            });
+
+            this.loadFromLocalStorage()
+
+            this.render()
+        },
+
+        addTaskHandler() {
+            const text = this.taskInput.value
+
+            if (!text) { 
+                return
+            }
+
+            this.manager.addTask(text)
+            this.taskInput.value = ''
+            this.saveToLocalStorage()
+            this.render()
+        },
+
+        render() {
+            const tasksList = document.querySelector('#tasksList')
+            const stats = document.querySelector('#stats')
+            
+            tasksList.innerHTML = ''
+
+            const tasks = this.manager.getAll()
+            
+            tasks.forEach(task => {
+                const div = document.createElement('div')
+                div.className = `task ${task.done ? 'done' : ''}`
+                
+                div.innerHTML = `
+                    <input type="checkbox" class='completion' ${task.done ? 'checked' : ''}>
+                    <span class="task-text">${task.text}</span>
+                    <button class="delete-btn">x</button>
+                `
+
+                const checkbox = div.querySelector('.completion')
+                checkbox.addEventListener('change', () => {
+                    this.manager.toggleTask(task.id)
+                    this.saveToLocalStorage()
+                    this.render()
+                });
+
+                const deleteBtn = div.querySelector('.delete-btn')
+                deleteBtn.addEventListener('click', () => {
+                    this.manager.removeTask(task.id)
+                    this.saveToLocalStorage()
+                    this.render()
+                });
+
+                tasksList.appendChild(div)
+            })
+
+            const { total, active, completed } = this.manager.getStats()
+            stats.textContent = `Total: ${total} | Active: ${active} | Done: ${completed}`
+        },
+
+        saveToLocalStorage() {
+            const tasks = this.manager.getAll()
+            localStorage.setItem('todo-tasks', JSON.stringify(tasks))
+        },
+
+        loadFromLocalStorage() {
+            const savedTasks = localStorage.getItem('todo-tasks')
+            if (savedTasks) {
+                const tasks = JSON.parse(savedTasks)
+                tasks.forEach(task => {
+                    const newTask = this.manager.addTask(task.text)
+                    if (task.done && newTask) {
+                        this.manager.toggleTask(newTask.id)
+                    }
+                })
+            }
+        }
+    };
+
+    app.init()
+  </script>
+</body>
+</html>
